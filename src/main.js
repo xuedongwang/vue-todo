@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import lodash from 'lodash';
-import VueI18n from 'vue-i18n'
 
 import App from './App.vue';
 import router from './router';
@@ -10,9 +9,14 @@ import '@/assets/scss/index.scss';
 import directives from '@/utils/directives';
 import filters from '@/utils/filters';
 
-Vue.use(VueI18n);
+import Notify from './components/notify';
+
+console.log(Notify);
+
 Vue.use(directives);
 Vue.use(filters);
+
+Vue.use(Notify);
 
 window._ = lodash;
 

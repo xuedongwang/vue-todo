@@ -127,6 +127,9 @@ export default {
       };
       this.todoList.push(newTodo);
       this.newTodoContent = '';
+      this.$notify({
+        message: '添加了一个新的待办事项'
+      })
     },
     handleDoneTodo (todo) {
       todo.status = 2;
@@ -136,16 +139,25 @@ export default {
     },
     handleDeleteTodo (id) {
       this.todoList = this.todoList.filter(todo => todo.id !== id);
+      this.$notify({
+        message: '删除了一件待办事项'
+      })
     },
     handleEditTodo(todo) {
       todo.editing = true;
     },
     handleConfirmEditTodo (todo) {
       todo.editing = false;
+      this.$notify({
+        message: '编辑了待办事项'
+      })
     },
     handleClearAllDoneTodo () {
       this.todoList = this.todoList.filter(todo => {
         return todo.status !== 2;
+      })
+      this.$notify({
+        message: '清除了所有已完成的任务'
       })
     },
     handleChangeFilter (filterType) {
@@ -174,10 +186,11 @@ export default {
   }
 };
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .page-wrapper {
   max-width: 550px;
   margin: 0 auto;
+  font-weight: 300;
   .header {
     .title {
       font-size: 100px;
@@ -360,7 +373,6 @@ export default {
         a {
           color: inherit;
           text-decoration: none;
-          font-weight: 400;
         }
       }
     }
