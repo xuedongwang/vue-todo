@@ -42,8 +42,7 @@
   </div>
 </template>
 <script>
-import { id } from '@/utils/id';
-import localforage from '@/utils/localforage';
+import { localforage, uuid } from '@/utils';
 import TodoHeader from './components/TodoHeader';
 import TodoFooter from './components/TodoFooter';
 import TodoBody from './components/TodoBody';
@@ -103,7 +102,7 @@ export default {
         return;
       }
       const newTodo = {
-        id: id(),
+        id: uuid(),
         text: this.newTodoContent,
         status: 1, // 1: undone 2: done
         editing: false,
