@@ -1,8 +1,6 @@
 <template>
   <div class="page-wrapper">
-    <header class="header">
-      <h1 class="title">Todos</h1>
-    </header>
+    <Header/>
     <main class="main">
       <TodoHeader
         v-model="newTodoContent"
@@ -26,23 +24,13 @@
         @onClearAll="handleClearAllDoneTodo"
       />
     </main>
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-item">Double-click to edit a todo</div>
-        <div class="footer-item">
-          Written by 
-          <a href="">XueDong Wang</a>
-        </div>
-        <div class="footer-item">
-          Design by 
-          <a href="">TodoMVC</a>
-        </div>
-      </div>
-    </footer>
+    <Footer/>
   </div>
 </template>
 <script>
 import { localforage, uuid } from '@/utils';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import TodoHeader from './components/TodoHeader';
 import TodoFooter from './components/TodoFooter';
 import TodoBody from './components/TodoBody';
@@ -58,7 +46,9 @@ export default {
   components: {
     TodoHeader,
     TodoBody,
-    TodoFooter
+    TodoFooter,
+    Header,
+    Footer
   },
   computed: {
     isAllDone () {
@@ -163,34 +153,9 @@ export default {
   max-width: 550px;
   margin: 0 auto;
   font-weight: 300;
-  .header {
-    .title {
-      font-size: 100px;
-      color: rgba(175, 47, 47, 0.15);
-      font-weight: 100;
-      text-align: center;
-      user-select: none;
-    }
-  }
   .main {
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2),  0 25px 50px 0 rgba(0, 0, 0, .1);
-  }
-  .footer {
-    margin: 65px auto 0;
-    .footer-inner {
-      font-size: 10px;
-      color: #bfbfbf;
-      text-align: center;
-      text-shadow: 0 1px 0 rgba(255,255,255,.5);
-      .footer-item {
-        margin: 10px 0;
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-      }
-    }
   }
 }
 </style>
