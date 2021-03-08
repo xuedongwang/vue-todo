@@ -54,6 +54,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 10000,
+          esModule: false,
           name: 'images/[name].[hash:7].[ext]'
         }
       },
@@ -62,6 +63,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 10000,
+          esModule: false,
           name: 'media/[name].[hash:7].[ext]'
         }
       },
@@ -70,6 +72,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 10000,
+          esModule: false,
           name: 'fonts/[name].[hash:7].[ext]'
         }
       }

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+const UNDONE_STATUS = 1;
 export default {
   name: 'TodoHeader',
   props: {
@@ -22,15 +23,15 @@ export default {
   },
   computed: {
     isAllDone () {
-      return !this.undoneTodos.length && this.todoList.length !== 0;
+      return this.undoneTodos.length === 0 && this.todoList.length > 0;
     },
     undoneTodos () {
-      return this.todoList.filter(todo => todo.status === 1);
+      return this.todoList.filter(todo => todo.status === UNDONE_STATUS);
     },
   },
   methods: {
     handleToggleAll () {
-      this.$emit('toggle');
+      this.$emit('toggle', this.isAllDone);
     },
     handleAddTodo () {
       this.$emit('confirm');

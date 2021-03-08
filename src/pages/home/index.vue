@@ -34,13 +34,17 @@ import Footer from './components/Footer';
 import TodoHeader from './components/TodoHeader';
 import TodoFooter from './components/TodoFooter';
 import TodoBody from './components/TodoBody';
+const CACHE_KEY = '__TODO_LIST__';
+const UNDONE_STATUS = 1;
+const DONE_STATUS = 2;
+const ALL_STATUS = 1 | 2;
 export default {
-  name: 'Home',
+  name: 'Todo',
   data () {
     return {
       todoList: [],
       newTodoContent: '',
-      filter: 'all' // 1: all 2: undone 3 done
+      filter: 'all' // 1: all 2: undone 3: done
     };
   },
   components: {
@@ -50,39 +54,12 @@ export default {
     Header,
     Footer
   },
-  computed: {
-    isAllDone () {
-      return !this.undoneTodos.length && this.todoList.length !== 0;
-    },
-    undoneTodos () {
-      return this.todoList.filter(todo => todo.status === 1);
-    },
-    doneTodoList () {
-      return this.todoList.filter(todo => todo.status === 2);
-    },
-    displayTodoList: {
-      set (newValue) {
-        this.todoList = newValue;
-      },
-      get () {
-        if (this.filter === 'all') {
-          return this.todoList;
-        }
-        if (this.filter === 'undone') {
-          return this.todoList.filter(todo => todo.status === 1);
-        }
-        if (this.filter === 'done') {
-          return this.todoList.filter(todo => todo.status === 2);
-        }
-      }
-    }
-  },
   methods: {
-    handleToggleAll () {
+    handleToggleAll (isAllDone) {
       this.todoList = this.todoList.map(todo => {
         return {
           ...todo,
-          status: this.isAllDone ? 1 : 2
+          status: isAllDone ? UNDONE_STATUS : DONE_STATUS
         };
       })
     },
@@ -94,19 +71,19 @@ export default {
       const newTodo = {
         id: uuid(),
         text: this.newTodoContent,
-        status: 1, // 1: undone 2: done
+        status: UNDONE_STATUS,
         editing: false,
-        createAt: Date.now(),
-        updateAt: Date.now()
+        createdAt: Date.now(),
+        updatedAt: Date.now()
       };
       this.todoList.push(newTodo);
       this.newTodoContent = '';
     },
     handleDoneTodo (todo) {
-      todo.status = 2;
+      todo.status = DONE_STATUS;
     },
     handleUndoneTodo (todo) {
-      todo.status = 1;
+      todo.status = UNDONE_STATUS;
     },
     handleDeleteTodo (id) {
       this.todoList = this.todoList.filter(todo => todo.id !== id);
@@ -119,32 +96,35 @@ export default {
     },
     handleClearAllDoneTodo () {
       this.todoList = this.todoList.filter(todo => {
-        return todo.status !== 2;
-      })
+        return todo.status !== DONE_STATUS;
+      });
     },
     handleChangeFilter (filterType) {
       this.filter = filterType;
     },
-    async initTodoList () {
-      const todoList = await localforage.getItem('__todoList');
-      this.todoList = todoList || [];
+    async fetchTodoList () {
+      const todoList = await localforage.getItem(CACHE_KEY);
+      this.todoList = todoList ?? [];
     },
     async cacheTodoList () {
-      await localforage.setItem('__todoList', this.todoList);
+      await localforage.setItem(CACHE_KEY, this.todoList);
     }
   },
   mounted () {
-    this.initTodoList ();
+    this.fetchTodoList();
     this.debounceCacheTodoList = _.debounce(this.cacheTodoList, 10);
-    window.addEventListener('resize', this.a)
   },
   watch: {
     todoList: {
       handler () {
+        console.log(this.todoList)
         this.debounceCacheTodoList();
       },
       deep: true
     }
+  },
+  beforeDestroy() {
+    this.debounceCacheTodoList && this.debounceCacheTodoList.cancel();
   }
 };
 </script>

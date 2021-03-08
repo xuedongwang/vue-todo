@@ -2,20 +2,34 @@
 <template>
   <div class="main-body">
     <draggable v-model="todoList" group="people" @start="drag=true" @end="drag=false">
-      <div class="todo-item" :title="todo.createAt | ago" v-for="todo of todoList" :key="todo.id">
+      <div class="todo-item" :title="todo.createdAt | ago" v-for="todo of todoList" :key="todo.id">
         <div class="item-inner edit" v-if="todo.editing">
           <input type="text" v-focus autofocus @keyup.enter="handleConfirmEditTodo(todo)" @blur="handleConfirmEditTodo(todo)" v-model="todo.text" class="edit-todo-input">
         </div>
         <template v-else>
           <div class="item-inner undone" v-if="todo.status === 1">
-            <img class="todo-status-icon" width="30" height="30" :src="require('@/assets/svg/undone-icon.svg').default" @click="handleDoneTodo(todo)" alt="">
+            <img
+              class="todo-status-icon"
+              width="30"
+              height="30"
+              src="@/assets/svg/undone-icon.svg"
+              @click="handleDoneTodo(todo)"
+              alt="undont svg"
+            >
             <div class="todo-text" @dblclick="handleEditTodo(todo)">{{ todo.text }}</div>
             <div class="todo-control">
               <i class="delete-todo" @click="handleDeleteTodo(todo.id)"></i>
             </div>
           </div>
           <div class="item-inner done" v-if="todo.status === 2">
-            <img class="todo-status-icon" width="30" height="30" :src="require('@/assets/svg/done-icon.svg').default" @click="handleUndoneTodo(todo)" alt="">
+            <img
+              class="todo-status-icon"
+              width="30"
+              height="30"
+              src="@/assets/svg/done-icon.svg"
+              @click="handleUndoneTodo(todo)"
+              alt="done svg"
+            >
             <div class="todo-text" @dblclick="handleEditTodo(todo)">{{ todo.text }}</div>
             <div class="todo-control">
               <i class="delete-todo" @click="handleDeleteTodo(todo.id)"></i>
@@ -28,7 +42,9 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
+const UNDONE_STATUS = 1;
+const DONE_STATUS = 2;
 export default {
   name: 'TodoBody',
   props: {
@@ -52,10 +68,10 @@ export default {
         return this.todoList;
       }
       if (this.active === 'undone') {
-        return this.todoList.filter(todo => todo.status === 1);
+        return this.todoList.filter(todo => todo.status === UNDONE_STATUS);
       }
       if (this.active === 'done') {
-        return this.todoList.filter(todo => todo.status === 2);
+        return this.todoList.filter(todo => todo.status === DONE_STATUS);
       }
     }
   },
