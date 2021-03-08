@@ -12,8 +12,6 @@ import filters from '@/filters';
 Vue.use(directives);
 Vue.use(filters);
 
-window._ = lodash;
-
 const app = new Vue({
   router,
   store,

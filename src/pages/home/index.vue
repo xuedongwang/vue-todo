@@ -117,7 +117,6 @@ export default {
   watch: {
     todoList: {
       handler () {
-        console.log(this.todoList)
         this.debounceCacheTodoList();
       },
       deep: true
