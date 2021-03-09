@@ -1,6 +1,4 @@
 import Vue from 'vue';
-import lodash from 'lodash';
-
 import App from './App.vue';
 import router from './router';
 import store from './store';

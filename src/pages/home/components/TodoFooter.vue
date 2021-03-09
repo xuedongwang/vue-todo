@@ -5,7 +5,7 @@
       <div class="inner-center">
         <div @click="handleChangeFilter('all')" class="all-todo control-item" :class="{active: active === 'all'}">all</div>
         <div @click="handleChangeFilter('undone')" class="undone-todo control-item" :class="{active: active === 'undone'}">active</div>
-        <div @click="handleChangeFilter('done')" class="dont-todo control-item" :class="{active: active === 'done'}">completed</div>
+        <div @click="handleChangeFilter('done')" class="done-todo control-item" :class="{active: active === 'done'}">completed</div>
       </div>
       <div class="inner-right" v-visiable="!!doneTodoList.length" @click="handleClearAllDoneTodo">Clear completed</div>
     </div>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+const UNDONE_STATUS = 1;
+const DONE_STATUS = 2;
 export default {
   name: 'TodoFooter',
   props: {
@@ -28,11 +30,22 @@ export default {
     }
   },
   computed: {
+    displayTodoList() {
+      if (this.active === 'all') {
+        return this.todoList;
+      }
+      if (this.active === 'undone') {
+        return this.todoList.filter(todo => todo.status === UNDONE_STATUS);
+      }
+      if (this.active === 'done') {
+        return this.todoList.filter(todo => todo.status === DONE_STATUS);
+      }
+    },
     undoneTodos () {
-      return this.todoList.filter(todo => todo.status === 1);
+      return this.displayTodoList.filter(todo => todo.status === UNDONE_STATUS);
     },
     doneTodoList () {
-      return this.todoList.filter(todo => todo.status === 2);
+      return this.todoList.filter(todo => todo.status === DONE_STATUS);
     },
   },
   methods: {

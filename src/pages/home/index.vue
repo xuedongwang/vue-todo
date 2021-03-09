@@ -34,6 +34,7 @@ import Footer from './components/Footer';
 import TodoHeader from './components/TodoHeader';
 import TodoFooter from './components/TodoFooter';
 import TodoBody from './components/TodoBody';
+import { debounce } from 'lodash';
 const CACHE_KEY = '__TODO_LIST__';
 const UNDONE_STATUS = 1;
 const DONE_STATUS = 2;
@@ -112,7 +113,7 @@ export default {
   },
   mounted () {
     this.fetchTodoList();
-    this.debounceCacheTodoList = _.debounce(this.cacheTodoList, 10);
+    this.debounceCacheTodoList = debounce(this.cacheTodoList, 10);
   },
   watch: {
     todoList: {

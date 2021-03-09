@@ -7,6 +7,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.conf.js",
     "report": "cross-env NODE_ENV=production webpack --config ./build/webpack.report.conf.js",
     "test": "mochapack --webpack-config ./build/webpack.prod.conf.js --require test/setup.js ./test/**/*.spec.js",
+    "cypress:open": "cypress open",
     "clear": "rimraf ./dist"
   },
   "keywords": [
@@ -28,6 +29,7 @@
     "chalk": "^3.0.0",
     "cross-env": "^6.0.3",
     "css-loader": "^3.6.0",
+    "cypress": "^6.6.0",
     "expect": "^26.6.2",
     "express": "^4.17.1",
     "friendly-errors-webpack-plugin": "^1.7.0",

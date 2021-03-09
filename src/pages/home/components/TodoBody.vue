@@ -1,8 +1,8 @@
 
 <template>
   <div class="main-body">
-    <draggable v-model="todoList" group="people" @start="drag=true" @end="drag=false">
-      <div class="todo-item" :title="todo.createdAt | ago" v-for="todo of todoList" :key="todo.id">
+    <draggable v-model="displayTodoList" group="people" @start="drag=true" @end="drag=false">
+      <div class="todo-item" :title="todo.createdAt | ago" v-for="todo of displayTodoList" :key="todo.id">
         <div class="item-inner edit" v-if="todo.editing">
           <input type="text" v-focus autofocus @keyup.enter="handleConfirmEditTodo(todo)" @blur="handleConfirmEditTodo(todo)" v-model="todo.text" class="edit-todo-input">
         </div>
@@ -130,18 +130,7 @@ export default {
             color: #cc9a9a;
           }
         }
-        .icon-shanchu {
-          visibility: hidden;
-        }
       }
-      &:hover {
-        .todo-control {
-          .icon-shanchu {
-            visibility: visible;
-          }
-        }
-      }
-      &.undone {}
       &.done {
         .todo-text {
           color: #d9d9d9;
